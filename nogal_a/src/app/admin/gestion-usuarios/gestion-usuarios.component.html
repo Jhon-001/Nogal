@@ -1,0 +1,120 @@
+<div class="admin-panel">
+  <!-- Header -->
+  <header class="admin-header sticky-top p-3">
+    <div class="container-fluid">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+          <button class="btn btn-outline-admin me-3" (click)="volverAlPanel()">
+            <i class="bi bi-arrow-left"></i>
+          </button>
+          <h4 class="mb-0 text-gold">Gestión de Usuarios</h4>
+        </div>
+        <div class="text-muted">
+          Total: {{ usuarios.length }} usuarios
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Content -->
+  <main class="container-fluid py-4">
+    <!-- Filtros -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <div class="chart-container">
+          <div class="row">
+            <div class="col-md-4">
+              <label class="form-label form-label-admin">Filtrar por Rol</label>
+              <select class="form-select form-control-admin" [(ngModel)]="filtroRol" (change)="aplicarFiltros()">
+                <option value="">Todos los roles</option>
+                <option value="admin">Administradores</option>
+                <option value="logistico">Logísticos</option>
+                <option value="repartidor">Repartidores</option>
+                <option value="cliente">Clientes</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label form-label-admin">Buscar</label>
+              <input type="text" class="form-control form-control-admin" 
+                     placeholder="Buscar por nombre, apellido o usuario..."
+                     [(ngModel)]="filtroBusqueda" (input)="aplicarFiltros()">
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+              <button class="btn btn-outline-admin w-100" (click)="limpiarFiltros()">
+                <i class="bi bi-arrow-clockwise"></i> Limpiar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabla de Usuarios -->
+    <div class="row">
+      <div class="col-12">
+        <div class="chart-container">
+          <div class="chart-header">
+            <h5 class="chart-title">Lista de Usuarios</h5>
+            <div class="text-muted">
+              Mostrando {{ usuariosFiltrados.length }} de {{ usuarios.length }} usuarios
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-hover pedidos-table">
+              <thead>
+                <tr>
+                  <th>Usuario</th>
+                  <th>Nombres</th>
+                  <th>Email</th>
+                  <th>Teléfono</th>
+                  <th>Documento</th>
+                  <th>Rol</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let usuario of usuariosFiltrados" class="animate-fade-in-up">
+                  <td>
+                    <strong>{{ usuario.username }}</strong>
+                  </td>
+                  <td>
+                    {{ usuario.nombres }} {{ usuario.apellidos }}
+                  </td>
+                  <td>{{ usuario.email }}</td>
+                  <td>{{ usuario.telefono }}</td>
+                  <td>
+                    <small class="text-muted">{{ usuario.tipoDocumento }}:</small><br>
+                    {{ usuario.numeroDocumento }}
+                  </td>
+                  <td>
+                    <span [class]="'badge ' + getClaseRol(usuario.rol)">
+                      {{ usuario.rol }}
+                    </span>
+                  </td>
+                  <td>
+                    <span class="badge bg-success">Activo</span>
+                  </td>
+                </tr>
+                <tr *ngIf="usuariosFiltrados.length === 0 && !cargando">
+                  <td colspan="7" class="text-center text-muted py-4">
+                    <i class="bi bi-people fs-1 d-block mb-2"></i>
+                    No se encontraron usuarios
+                  </td>
+                </tr>
+                <tr *ngIf="cargando">
+                  <td colspan="7" class="text-center text-muted py-4">
+                    <div class="spinner-border text-primary" role="status">
+                      <span class="visually-hidden">Cargando...</span>
+                    </div>
+                    <div class="mt-2">Cargando usuarios...</div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

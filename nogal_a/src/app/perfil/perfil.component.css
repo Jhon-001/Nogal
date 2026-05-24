@@ -1,0 +1,147 @@
+.list-group-item.active {
+  background-color: #2c5530;
+  border-color: #2c5530;
+}
+
+.list-group-item-action:hover {
+  background-color: #f8f9fa;
+}
+
+.card {
+  border: none;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  border-radius: 10px;
+}
+
+.card-header {
+  border-radius: 10px 10px 0 0 !important;
+  font-weight: 600;
+}
+
+.user-avatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.breadcrumb {
+  background: transparent;
+  padding: 0;
+}
+
+.breadcrumb-item a {
+  color: #2c5530;
+  text-decoration: none;
+}
+
+.breadcrumb-item.active {
+  color: #6c757d;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #495057;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #2c5530;
+  box-shadow: 0 0 0 0.2rem rgba(44, 85, 48, 0.25);
+}
+
+.form-control:read-only {
+  background-color: #f8f9fa;
+  opacity: 0.8;
+}
+
+.form-control:disabled {
+  background-color: #e9ecef;
+  opacity: 0.6;
+}
+
+.alert {
+  border: none;
+  border-radius: 8px;
+}
+
+.btn {
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.btn-primary {
+  background-color: #2c5530;
+  border-color: #2c5530;
+}
+
+.btn-primary:hover {
+  background-color: #244428;
+  border-color: #244428;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container-fluid {
+    padding: 0 15px;
+  }
+  
+  .card-body {
+    padding: 1rem;
+  }
+  
+  .btn {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  .d-flex.gap-2 {
+    flex-direction: column;
+  }
+}
+
+/* Animaciones */
+.spinner-border {
+  width: 1rem;
+  height: 1rem;
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Estados de validación */
+.is-invalid {
+  border-color: #dc3545;
+}
+
+.is-invalid:focus {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+.invalid-feedback {
+  display: block;
+}
+
+/* Mejoras visuales */
+.text-muted {
+  font-size: 0.875rem;
+}
+
+.badge {
+  font-size: 0.75rem;
+}
+
+.border-bottom {
+  border-color: #e9ecef !important;
+}

@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-NogalApplication<nogal>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "nogal.com.nogal.NogalApplication",
+            "projectName": "nogal",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

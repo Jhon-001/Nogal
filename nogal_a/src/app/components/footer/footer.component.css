@@ -1,0 +1,30 @@
+footer {
+  margin-top: auto;
+}
+
+.badge {
+  font-size: 0.7em;
+  cursor: default;
+}
+
+a:hover {
+  opacity: 0.8;
+}
+
+.text-warning {
+  color: #ffc107 !important;
+}
+
+.bg-warning {
+  background-color: #ffc107 !important;
+}
+
+.btn-success {
+  background-color: #25d366;
+  border-color: #25d366;
+}
+
+.btn-success:hover {
+  background-color: #128c7e;
+  border-color: #128c7e;
+}

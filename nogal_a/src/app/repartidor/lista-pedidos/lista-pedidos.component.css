@@ -1,0 +1,285 @@
+.lista-pedidos {
+  padding: 20px 0;
+}
+
+.filtros {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  padding: 15px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.filtro-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.filtro-group label {
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 0;
+}
+
+.form-select {
+  padding: 8px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  background: white;
+  min-width: 200px;
+}
+
+.contador .badge {
+  font-size: 14px;
+  padding: 8px 12px;
+}
+
+.pedidos-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.pedido-item {
+  background: white;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.pedido-item:hover {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  border-color: #007bff;
+}
+
+.pedido-item.selected {
+  border-color: #007bff;
+  box-shadow: 0 4px 12px rgba(0,123,255,0.15);
+}
+
+.pedido-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.pedido-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pedido-info h4 {
+  margin: 0;
+  color: #212529;
+  font-size: 18px;
+}
+
+.pedido-fecha {
+  color: #6c757d;
+  font-size: 14px;
+}
+
+.pedido-preview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.preview-item {
+  font-size: 14px;
+  color: #495057;
+}
+
+.pedido-detalles {
+  border-top: 1px solid #e9ecef;
+  padding-top: 20px;
+  margin-top: 15px;
+}
+
+.detalle-section {
+  margin-bottom: 25px;
+}
+
+.detalle-section h5 {
+  margin-bottom: 15px;
+  color: #495057;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.detalle-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 12px;
+}
+
+.detalle-item {
+  padding: 10px;
+  background: #f8f9fa;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.direccion-card {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 6px;
+  border-left: 4px solid #007bff;
+}
+
+.direccion-card p {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.productos-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.producto-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background: white;
+  border: 1px solid #e9ecef;
+  border-radius: 6px;
+}
+
+.producto-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex: 1;
+}
+
+.producto-nombre {
+  font-weight: 500;
+  color: #212529;
+}
+
+.producto-cantidad {
+  background: #e9ecef;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.producto-precio {
+  color: #6c757d;
+  font-size: 14px;
+}
+
+.producto-subtotal {
+  font-weight: 600;
+  color: #28a745;
+}
+
+.resumen-pedido {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 6px;
+  max-width: 300px;
+}
+
+.resumen-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.resumen-item.total {
+  border-top: 2px solid #007bff;
+  border-bottom: none;
+  margin-top: 8px;
+  padding-top: 12px;
+  font-size: 16px;
+}
+
+.acciones {
+  background: #e7f3ff;
+  padding: 20px;
+  border-radius: 8px;
+  border-left: 4px solid #007bff;
+}
+
+.entregado {
+  background: #d4edda;
+  padding: 20px;
+  border-radius: 8px;
+  border-left: 4px solid #28a745;
+}
+
+.entregado h5 {
+  color: #155724;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #6c757d;
+}
+
+.empty-icon {
+  font-size: 48px;
+  margin-bottom: 15px;
+}
+
+.empty-state h3 {
+  margin-bottom: 10px;
+  color: #495057;
+}
+
+/* Badges */
+.badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge-warning {
+  background: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeaa7;
+}
+
+.badge-success {
+  background: #d1edff;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.badge-danger {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.badge-secondary {
+  background: #e2e3e5;
+  color: #383d41;
+  border: 1px solid #d6d8db;
+}
+
+.badge-info {
+  background: #cce7ff;
+  color: #004085;
+  border: 1px solid #b3d7ff;
+}

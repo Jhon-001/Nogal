@@ -1,0 +1,350 @@
+<div class="container-fluid py-4">
+  <!-- Header -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="d-flex justify-content-between align-items-center">
+        <h2 class="mb-0">
+          <i class="bi bi-bag-check me-2"></i>
+          Mis Pedidos
+        </h2>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a routerLink="/principal">Inicio</a></li>
+            <li class="breadcrumb-item"><a routerLink="/perfil">Mi Perfil</a></li>
+            <li class="breadcrumb-item active">Mis Pedidos</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filtros -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="filters-card">
+        <div class="row align-items-center">
+          <div class="col-md-3">
+            <label class="form-label small mb-1">Filtrar por estado:</label>
+            <select class="form-select form-select-sm" [(ngModel)]="filtroEstado" (change)="aplicarFiltro()">
+              <option value="">Todos los pedidos</option>
+              <option value="PENDIENTE">Pendientes</option>
+              <option value="PROCESANDO">En proceso</option>
+              <option value="ENVIADO">Enviados</option>
+              <option value="ENTREGADO">Entregados</option>
+              <option value="CANCELADO">Cancelados</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label small mb-1">Buscar por número:</label>
+            <input type="text" class="form-control form-control-sm" 
+                   [(ngModel)]="filtroBusqueda" 
+                   (input)="aplicarFiltro()"
+                   placeholder="PED-2025...">
+          </div>
+          <div class="col-md-3">
+            <label class="form-label small mb-1">&nbsp;</label>
+            <button class="btn btn-outline-secondary btn-sm w-100" (click)="limpiarFiltros()">
+              <i class="bi bi-arrow-clockwise me-1"></i> Limpiar filtros
+            </button>
+          </div>
+          <div class="col-md-3 text-end">
+            <label class="form-label small mb-1">&nbsp;</label>
+            <p class="mb-0 small">
+              <strong>Total de pedidos:</strong> 
+              <span class="badge bg-primary">{{ pedidosFiltrados.length }}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="cargando" class="loading-container">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
+    <p class="mt-3 text-muted">Cargando tus pedidos...</p>
+  </div>
+
+  <!-- Sin pedidos -->
+  <div *ngIf="!cargando && pedidos.length === 0" class="row">
+    <div class="col-12">
+      <div class="empty-state">
+        <i class="bi bi-bag-x"></i>
+        <h4 class="mt-3">No tienes pedidos registrados</h4>
+        <p class="text-muted">Cuando realices compras, aparecerán aquí.</p>
+        <button class="btn btn-primary btn-lg" routerLink="/principal">
+          <i class="bi bi-shop me-2"></i> Ir a la Tienda
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Vista Desktop: Tabla -->
+  <div *ngIf="!cargando && pedidos.length > 0" class="row d-none d-md-block">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover mb-0">
+              <thead>
+                <tr>
+                  <th>Pedido Nº</th>
+                  <th>Fecha</th>
+                  <th>Total Pedido</th>
+                  <th>Cantidad</th>
+                  <th>Estado</th>
+                  <th class="text-center">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let pedido of pedidosFiltrados" (click)="verDetalle(pedido, modalDetalle)">
+                  <td>
+                    <strong class="text-primary">{{ pedido.numeroPedido }}</strong>
+                  </td>
+                  <td>{{ pedido.fechaPedido | date:'dd/MM/yy' }}</td>
+                  <td>
+                    <strong>S/ {{ pedido.total | number:'1.2-2' }}</strong>
+                  </td>
+                  <td>
+                    <span class="badge bg-secondary">{{ getTotalProductos(pedido) }} productos</span>
+                  </td>
+                  <td>
+                    <span class="badge-estado" [ngClass]="getClaseEstado(pedido.estado!)">
+                      {{ pedido.estado }}
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <div class="btn-group btn-group-sm" (click)="$event.stopPropagation()">
+                      <button class="btn btn-outline-primary" 
+                              (click)="verDetalle(pedido, modalDetalle)"
+                              title="Ver detalle">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                      <button class="btn btn-outline-danger" 
+                              *ngIf="pedido.estado === 'PENDIENTE' || pedido.estado === 'PROCESANDO'"
+                              (click)="cancelarPedido(pedido)"
+                              title="Cancelar pedido">
+                        <i class="bi bi-x-circle"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Vista Mobile: Cards -->
+  <div *ngIf="!cargando && pedidos.length > 0" class="row d-md-none">
+    <div class="col-12">
+      <div class="pedido-card fade-in" *ngFor="let pedido of pedidosFiltrados">
+        <div class="pedido-card-header">
+          <div class="pedido-numero">{{ pedido.numeroPedido }}</div>
+          <span class="badge-estado" [ngClass]="getClaseEstado(pedido.estado!)">
+            {{ pedido.estado }}
+          </span>
+        </div>
+
+        <div class="pedido-info">
+          <div class="pedido-info-item">
+            <div class="pedido-info-label">Fecha</div>
+            <div class="pedido-info-value">{{ pedido.fechaPedido | date:'dd/MM/yy' }}</div>
+          </div>
+          <div class="pedido-info-item">
+            <div class="pedido-info-label">Total</div>
+            <div class="pedido-info-value">S/ {{ pedido.total | number:'1.2-2' }}</div>
+          </div>
+          <div class="pedido-info-item">
+            <div class="pedido-info-label">Productos</div>
+            <div class="pedido-info-value">{{ getTotalProductos(pedido) }}</div>
+          </div>
+          <div class="pedido-info-item">
+            <div class="pedido-info-label">Método de pago</div>
+            <div class="pedido-info-value">{{ pedido.metodoPago }}</div>
+          </div>
+        </div>
+
+        <div class="pedido-acciones">
+          <button class="btn btn-primary btn-sm flex-grow-1" (click)="verDetalle(pedido, modalDetalle)">
+            <i class="bi bi-eye me-1"></i> Ver detalle
+          </button>
+          <button class="btn btn-danger btn-sm flex-grow-1" 
+                  *ngIf="pedido.estado === 'PENDIENTE' || pedido.estado === 'PROCESANDO'"
+                  (click)="cancelarPedido(pedido)">
+            <i class="bi bi-x-circle me-1"></i> Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sin resultados después de filtrar -->
+  <div *ngIf="!cargando && pedidos.length > 0 && pedidosFiltrados.length === 0" class="row">
+    <div class="col-12">
+      <div class="empty-state">
+        <i class="bi bi-search"></i>
+        <h5 class="mt-3">No se encontraron pedidos</h5>
+        <p class="text-muted">Intenta con otros filtros de búsqueda.</p>
+        <button class="btn btn-primary" (click)="limpiarFiltros()">
+          <i class="bi bi-arrow-clockwise me-1"></i> Limpiar filtros
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Detalle del Pedido -->
+<ng-template #modalDetalle let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">
+      <i class="bi bi-receipt me-2"></i>
+      Detalle del Pedido
+    </h5>
+    <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+  </div>
+  
+  <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
+    <div *ngIf="pedidoSeleccionado">
+      <!-- Información General -->
+      <div class="row mb-4">
+        <div class="col-md-6 mb-3">
+          <h6 class="text-muted small mb-1">NÚMERO DE PEDIDO</h6>
+          <p class="mb-0 fw-bold text-primary">{{ pedidoSeleccionado.numeroPedido }}</p>
+        </div>
+        <div class="col-md-6 mb-3">
+          <h6 class="text-muted small mb-1">FECHA</h6>
+          <p class="mb-0">{{ pedidoSeleccionado.fechaPedido | date:'dd/MM/yyyy HH:mm' }}</p>
+        </div>
+        <div class="col-md-6 mb-3">
+          <h6 class="text-muted small mb-1">ESTADO</h6>
+          <span class="badge-estado" [ngClass]="getClaseEstado(pedidoSeleccionado.estado!)">
+            {{ pedidoSeleccionado.estado }}
+          </span>
+        </div>
+        <div class="col-md-6 mb-3">
+          <h6 class="text-muted small mb-1">MÉTODO DE PAGO</h6>
+          <p class="mb-0">{{ pedidoSeleccionado.metodoPago }}</p>
+        </div>
+        
+        <!-- NUEVA SECCIÓN: CÓDIGO DE VERIFICACIÓN -->
+        <div class="col-12 mb-3" *ngIf="pedidoSeleccionado.codigoVerificacion">
+          <h6 class="text-muted small mb-1">CÓDIGO DE VERIFICACIÓN</h6>
+          <div class="alert alert-primary py-3">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <span class="fs-4 fw-bold text-primary">{{ pedidoSeleccionado.codigoVerificacion }}</span>
+                <small class="d-block text-muted mt-1">
+                  <i class="bi bi-info-circle me-1"></i>
+                  Este código será solicitado por el repartidor al momento de la entrega
+                </small>
+              </div>
+              <button class="btn btn-outline-primary btn-sm" 
+                      (click)="copiarCodigo(pedidoSeleccionado!.codigoVerificacion!)"
+                      title="Copiar código">
+                <i class="bi bi-clipboard me-1"></i> Copiar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <!-- Dirección de Envío -->
+      <div class="mb-4">
+        <h6 class="mb-3">
+          <i class="bi bi-geo-alt me-2"></i>
+          Dirección de Envío
+        </h6>
+        <div class="alert alert-light">
+          <strong>{{ pedidoSeleccionado.direccion.nombreReceptor }} {{ pedidoSeleccionado.direccion.apellidosReceptor }}</strong><br>
+          {{ pedidoSeleccionado.direccion.direccion }} {{ pedidoSeleccionado.direccion.numero }}<br>
+          {{ pedidoSeleccionado.direccion.distrito }}, {{ pedidoSeleccionado.direccion.provincia }}<br>
+          <i class="bi bi-telephone me-1"></i> {{ pedidoSeleccionado.direccion.telefono }}
+        </div>
+      </div>
+
+      <!-- Productos -->
+      <div class="mb-4">
+        <h6 class="mb-3">
+          <i class="bi bi-box-seam me-2"></i>
+          Productos ({{ pedidoSeleccionado.detalles.length }})
+        </h6>
+        <div class="detalle-producto" *ngFor="let detalle of pedidoSeleccionado.detalles">
+          <div class="row align-items-center">
+            <div class="col-md-6">
+              <strong>{{ detalle.producto.nombre }}</strong><br>
+              <small class="text-muted">
+                {{ detalle.producto.categoria?.nombre }} • {{ detalle.producto.material }}
+              </small>
+            </div>
+            <div class="col-md-2 text-center">
+              <span class="badge bg-secondary">x{{ detalle.cantidad }}</span>
+            </div>
+            <div class="col-md-2 text-end">
+              <small class="text-muted">S/ {{ detalle.precioUnitario | number:'1.2-2' }}</small>
+            </div>
+            <div class="col-md-2 text-end">
+              <strong>S/ {{ detalle.subtotal | number:'1.2-2' }}</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Resumen de Costos -->
+      <div class="detalle-resumen">
+        <div class="row mb-2">
+          <div class="col-6">
+            <strong>Subtotal:</strong>
+          </div>
+          <div class="col-6 text-end">
+            S/ {{ pedidoSeleccionado.subtotal | number:'1.2-2' }}
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-6">
+            <strong>Envío:</strong>
+          </div>
+          <div class="col-6 text-end">
+            <span *ngIf="pedidoSeleccionado.envio === 0" class="text-success">GRATIS</span>
+            <span *ngIf="pedidoSeleccionado.envio > 0">S/ {{ pedidoSeleccionado.envio | number:'1.2-2' }}</span>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-6">
+            <strong>IGV (18%):</strong>
+          </div>
+          <div class="col-6 text-end">
+            S/ {{ pedidoSeleccionado.igv | number:'1.2-2' }}
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-6">
+            <strong class="fs-5">Total:</strong>
+          </div>
+          <div class="col-6 text-end">
+            <strong class="fs-5 text-primary">S/ {{ pedidoSeleccionado.total | number:'1.2-2' }}</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">
+      Cerrar
+    </button>
+    <button type="button" 
+            class="btn btn-danger" 
+            *ngIf="pedidoSeleccionado && (pedidoSeleccionado.estado === 'PENDIENTE' || pedidoSeleccionado.estado === 'PROCESANDO')"
+            (click)="cancelarPedido(pedidoSeleccionado); modal.dismiss()">
+      <i class="bi bi-x-circle me-1"></i> Cancelar Pedido
+    </button>
+  </div>
+</ng-template>

@@ -1,0 +1,99 @@
+<header class="main-header">
+  <div class="container-fluid">
+    <div class="row align-items-center py-2">
+      <!-- Logo -->
+      <div class="col-md-3">
+        <div class="logo">
+          <a routerLink="/principal" class="text-decoration-none">
+            <img src="img/logo-nogal.png" 
+                 alt="Nogal Muebles" 
+                 class="logo-image">
+          </a>
+        </div>
+      </div>
+
+      <!-- Barra de búsqueda (Centro) -->
+      <div class="col-md-6">
+        <div class="search-bar">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Buscar muebles, sillas, mesas...">
+            <button class="btn btn-primary">
+              <i class="bi bi-search"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Estado de Autenticación (Derecha) -->
+      <div class="col-md-3">
+        <div class="auth-section text-end">
+          
+          <!-- Usuario NO autenticado -->
+          <div *ngIf="!estaAutenticado()" class="not-authenticated">
+            <button class="btn btn-outline-primary btn-sm" (click)="irALogin()">
+              <i class="bi bi-person"></i> Iniciar Sesión
+            </button>
+            <span class="mx-2 text-muted">|</span>
+            <button class="btn btn-primary btn-sm" (click)="irARegistro()">
+              <i class="bi bi-person-plus"></i> Registrarse
+            </button>
+          </div>
+
+          <!-- Usuario SÍ autenticado -->
+          <div *ngIf="estaAutenticado()" class="authenticated">
+            <!-- Icono del Carrito -->
+            <button class="btn btn-outline-primary btn-sm me-2 position-relative" 
+                    (click)="irAlCarrito()"
+                    title="Ver carrito">
+              <i class="bi bi-cart3"></i>
+              <span *ngIf="obtenerCantidadCarrito() > 0" 
+                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                {{ obtenerCantidadCarrito() }}
+                <span class="visually-hidden">productos en carrito</span>
+              </span>
+            </button>
+
+            <!-- Dropdown del Usuario -->
+            <div class="dropdown d-inline-block">
+              <button class="btn btn-outline-primary dropdown-toggle" 
+                      type="button" 
+                      id="userDropdown"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false">
+                <i class="bi bi-person-circle me-1"></i>
+                ¡Hola, {{ obtenerNombreUsuario() }}!
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                <li>
+                  <a class="dropdown-item" href="javascript:void(0)" routerLink="/perfil">
+                    <i class="bi bi-person me-2"></i>Mi Perfil
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="javascript:void(0)" routerLink="/mis-pedidos">
+                    <i class="bi bi-bag me-2"></i>Mis Pedidos
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="javascript:void(0)" routerLink="/carrito">
+                    <i class="bi bi-cart3 me-2"></i>
+                    Carrito de Compras
+                    <span *ngIf="obtenerCantidadCarrito() > 0" 
+                          class="badge bg-primary ms-2">{{ obtenerCantidadCarrito() }}</span>
+                  </a>
+                </li>
+                <li><hr class="dropdown-divider"></li>
+                <li>
+                  <a class="dropdown-item text-danger" href="javascript:void(0)" (click)="cerrarSesion()">
+                    <i class="bi bi-box-arrow-right me-2"></i>Cerrar Sesión
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
