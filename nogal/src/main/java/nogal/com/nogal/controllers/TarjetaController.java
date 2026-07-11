@@ -14,7 +14,7 @@ import nogal.com.nogal.repositories.IUsuarioRepository;
 
 @RestController
 @RequestMapping("/tarjeta")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {"http://localhost:4200", "https://brave-bush-0f4d5fa10.7.azurestaticapps.net"})
 public class TarjetaController {
 
     @Autowired

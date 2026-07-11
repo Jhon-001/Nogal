@@ -21,7 +21,7 @@ export interface Usuario {
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8080/usuario';
+  private apiUrl = 'https://nogal-backend-czaqc4gfffg0asfs.chilecentral-01.azurewebsites.net/usuario';
   private currentUserSubject = new BehaviorSubject<Usuario | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
 

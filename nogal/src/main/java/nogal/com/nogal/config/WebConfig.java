@@ -11,7 +11,8 @@ public class WebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         WebMvcConfigurer.super.addCorsMappings(registry);
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:4200")
+                .allowedOrigins("http://localhost:4200",
+                "https://brave-bush-0f4d5fa10.7.azurestaticapps.net")
                 .allowedMethods("GET", "PUT", "POST", "DELETE")
                 .allowedHeaders("Authorization", "Accept", "Origin", "X-Requested-With", "Content-Type");
     }

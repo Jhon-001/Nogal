@@ -72,7 +72,7 @@ export interface ProblemaEntrega {
   providedIn: 'root'
 })
 export class RepartidorService {
-  private apiUrl = 'http://localhost:8080/repartidor';
+  private apiUrl = 'https://nogal-backend-czaqc4gfffg0asfs.chilecentral-01.azurewebsites.net/repartidor';
 
   constructor(private http: HttpClient) { }
 

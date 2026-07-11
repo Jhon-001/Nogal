@@ -32,7 +32,7 @@ import nogal.com.nogal.services.RepartidorService;
 
 @RestController
 @RequestMapping("/repartidor")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {"http://localhost:4200", "https://brave-bush-0f4d5fa10.7.azurestaticapps.net"})
 public class RepartidorController {
 
     @Autowired

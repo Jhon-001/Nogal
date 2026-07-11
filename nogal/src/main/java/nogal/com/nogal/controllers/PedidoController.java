@@ -21,7 +21,7 @@ import nogal.com.nogal.services.PedidoService;
 
 @RestController
 @RequestMapping("/pedido")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {"http://localhost:4200", "https://brave-bush-0f4d5fa10.7.azurestaticapps.net"})
 public class PedidoController {
 
     @Autowired
